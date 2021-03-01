@@ -3,9 +3,18 @@
 
 // Import sass files
 @import "variables";
+@import "mixins";
+@import "welcome";
 
 body {
-  font-family: Helvetica;
+  font-family: Montserrat;
+  background-color: $greyLavender;
+  color: $honeyYellow;
+
+}
+
+a, a:visited, a:hover {
+  text-decoration: none;
 }
 
 #root {
