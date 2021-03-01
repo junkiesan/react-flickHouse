@@ -1,0 +1,20 @@
+.welcome {
+  background-color: $black;
+  border-radius: 2.1875rem;
+  padding: 6.25rem;
+  text-align: center;
+
+  h1 {
+    margin: 1.875rem;
+  }
+
+  &__btn{
+    border: 4px solid $honeyYellow;
+    border-radius: 2.1875rem;
+    background-color: transparent;
+    width: 140px;
+    height: 60px;
+    font-size: $font-xlg;
+    margin: 1.875rem;
+  }
+}

@@ -1,5 +1,20 @@
+// Montserrat imported from Google Font
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;1,100&display=swap');
+
+// Import sass files
+@import "variables";
+@import "mixins";
+@import "welcome";
+
 body {
-  font-family: Helvetica;
+  font-family: Montserrat;
+  background-color: $greyLavender;
+  color: $honeyYellow;
+
+}
+
+a, a:visited, a:hover {
+  text-decoration: none;
 }
 
 #root {
