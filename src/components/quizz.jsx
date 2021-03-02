@@ -89,13 +89,17 @@ class Quizz extends Component {
             redButton = <img src="assets/img/red_thumb.svg" onClick={this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
           }
           return(
-            <div>
-        { question }
-        { actorImage }
-        { movieImage }
-        { greenButton }
-        { redButton }
-      </div>
+            <div className="quizz">
+              { question }
+              <div className="quizz__img">
+                { actorImage }
+                { movieImage }
+              </div>
+              <div className="quizz__btn">
+                { greenButton }
+                { redButton }
+              </div>
+            </div>
     );
   }
 }
