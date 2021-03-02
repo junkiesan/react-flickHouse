@@ -46,8 +46,8 @@ class Quizz extends Component {
   }
 
   // compare answer
-  checkAnswer = async (movieId, actorId) => {
-    fetch(`${this.movieUrl}${movieId}/credits?api_key=${this.apiKey}`)
+  checkAnswer = async (actorId, movieId) => {
+    await fetch(`${this.movieUrl}${movieId}/credits?api_key=${this.apiKey}`)
     .then(response => response.json())
     .then((data) => {
       // console.log(data);
@@ -77,11 +77,11 @@ class Quizz extends Component {
     )
   }
   
-  handleAnswer = (boolean, movieId, actorId) => {
+  handleAnswer = (boolean, actorId, movieId) => {
     this.setState({
       userAnswer: boolean
     });
-    this.checkAnswer(movieId, actorId);
+    this.checkAnswer(actorId, movieId);
   }
   // for each good answer add 10points
   // handle next question
@@ -100,6 +100,7 @@ class Quizz extends Component {
           let redButton;
           let message;
           let test2;
+          let test;
           
           
           if (this.state.isLoaded) {
@@ -116,7 +117,7 @@ class Quizz extends Component {
             movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
             greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
             redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
-            // test = <p>{console.log(actors[index]['id'])}</p>
+            test = <p>{console.log(actors[index]['id'])}</p>
             test2 = <p>{console.log(movies[index]['id'])}</p>
           }
           return(
@@ -130,7 +131,7 @@ class Quizz extends Component {
                 { greenButton }
                 { redButton }
                 { message }
-                {/* { test } */}
+                { test }
                 { test2 }
               </div>
             </div>
