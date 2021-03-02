@@ -20,7 +20,6 @@ class App extends Component {
   }
   render() {
 
-
     let welcome;
     if (this.state.welcomeComponentDisplayed) {
       welcome = <Welcome />
@@ -33,12 +32,14 @@ class App extends Component {
     if (this.state.launchQuizz) {
       test = <p>echo</p>
     }
+    let quizz = <Quizz />
     return(
       <div>
         <div className="welcome">
           { welcome }
           { startButton }
         </div>
+        { quizz }
         { test }
       </div>
     )
