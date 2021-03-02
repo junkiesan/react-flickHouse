@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Welcome from './welcome'
+import Quizz from './quizz'
 
 class App extends Component {
   constructor(props) {
