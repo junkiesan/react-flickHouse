@@ -10,6 +10,7 @@ class Quizz extends Component {
       index: Math.floor(Math.random() * Math.floor(20)),
       movies: [],
       actors: [],
+      userAnswer: null,
       answer: null
     }
     this.apiKey = process.env.REACT_APP_TMDB_API,
@@ -46,22 +47,39 @@ class Quizz extends Component {
 
   // compare answer
   checkAnswer = async (movieId, actorId) => {
-    await fetch(`${this.movieUrl}${movieId}/credits?api_key=${this.apiKey}`)
+    fetch(`${this.movieUrl}${movieId}/credits?api_key=${this.apiKey}`)
     .then(response => response.json())
     .then((data) => {
+      // console.log(data);
+      // console.log(data.id);
+      // console.log(data.cast);
+      // console.log(data.cast[0]['id']);
+      // console.log(actorId);
+    
       if (data.cast.some(credit => credit.id === actorId)) {
-        this.setState({ answer: true});
-        console.log("RIGHT ANSWER");
+        this.setState({ 
+          answer: true,
+          isLoaded: true
+        });
       } else {
-        this.setState({ answer: false});
-        console.log("FALSE ANSWER");
+        this.setState({ 
+          answer: false,
+          isLoaded: true
+        });
       }
-    })
+    },
+      (error) => {
+        this.setState({
+          isLoaded: true,
+          error
+        });
+      }
+    )
   }
   
   handleAnswer = (boolean, movieId, actorId) => {
     this.setState({
-      answer: boolean
+      userAnswer: boolean
     });
     this.checkAnswer(movieId, actorId);
   }
@@ -70,7 +88,6 @@ class Quizz extends Component {
   // after 5 questions stop game
   // if 60seconds passed stop game
   // display score and highscore
-  
 
   render() {
     
@@ -81,12 +98,26 @@ class Quizz extends Component {
           let movieImage;
           let greenButton;
           let redButton;
+          let message;
+          let test2;
+          
+          
           if (this.state.isLoaded) {
-            question = <h2>Did {actors[index]['name']} played in { movies[index]['title'] } ?</h2>
+              if (this.state.answer !== null && this.state.answer === this.state.userAnswer) {
+                message = <p>good answer</p>
+    
+              
+              }else if (this.state.userAnswer !== null && this.state.answer !== this.state.userAnswer){
+                message = <p>bad answer</p>
+    
+              }
+            question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
             actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
             movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
-            greenButton = <img src="assets/img/green_thumb.svg" onClick={this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
-            redButton = <img src="assets/img/red_thumb.svg" onClick={this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+            greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+            redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+            // test = <p>{console.log(actors[index]['id'])}</p>
+            test2 = <p>{console.log(movies[index]['id'])}</p>
           }
           return(
             <div className="quizz">
@@ -98,6 +129,9 @@ class Quizz extends Component {
               <div className="quizz__btn">
                 { greenButton }
                 { redButton }
+                { message }
+                {/* { test } */}
+                { test2 }
               </div>
             </div>
     );
