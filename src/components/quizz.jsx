@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-console.log(process.env.REACT_APP_TMDB_API);
 class Quizz extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      error: null,
+      isLoaded: false,
       movies: [],
-      actors: []
+      actors: [],
+      index: Math.floor(Math.random() * Math.floor(20))
     }
     this.apiKey = process.env.REACT_APP_TMDB_API,
     // this.apiKey = 'cc9affe1944340df2004885c27eab5e9',
@@ -13,62 +15,64 @@ class Quizz extends Component {
     this.movieUrl = 'https://api.themoviedb.org/3/movie/popular?api_key='
   }
 
-  // fetch api
-  // fetchTheMovieDatabase() {
-  //   fetch(`${this.actorUrl}${this.apiKey}`)
-  //   .then(response => response.json())
-  //   .then(data =>{
-  //     console.log(data.results);
-  //   })
-  // }
-  // get random actor
+  
   // get random movie
-  // ask question
   // compare answer
   // for each good answer add 10points
   // handle next question
   // after 5 questions stop game
   // if 60seconds passed stop game
   // display score and highscore
-
-  // componentDidMount() {
-  //   // fetch(`${this.actorUrl}${this.apiKey}`)
-  //   fetch(`${this.actorUrl}cc9affe1944340df2004885c27eab5e9`)
-  //     .then(res => res.json())
-  //     .then(
-  //       (result) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           items: result.items
-  //         });
-  //       },
-  //       // Note: it's important to handle errors here
-  //       // instead of a catch() block so that we don't swallow
-  //       // exceptions from actual bugs in components.
-  //       (error) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     )
-  // }
-  render() {
-    const fetchActors = (actors) => {
-      fetch(`${this.actorUrl}${this.apiKey}`)
-      .then(response => response.json())
-      .then(data =>{
-        console.log(data.results);
-        // console.log(data.results.name);
-      })
+  
+  // fetch api
+  // get random actor
+  componentDidMount() {
+    fetch(`${this.actorUrl}${this.apiKey}`)
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({
+        actors: data.results,
+        isLoaded: true
+      });
+    },
+    // Note: it's important to handle errors here
+    // instead of a catch() block so that we don't swallow
+    // exceptions from actual bugs in components.
+    (error) => {
+      this.setState({
+        isLoaded: true,
+        error
+      });
     }
-    const actors = [];
-    fetchActors(actors);
-    console.log(actors);
-
-    return(
-      <div>
-
+    )
+  }
+  render() {
+    
+    const { actors, movies, index} = this.state;
+    // const fetchActors = (actors) => {
+      //   fetch(`${this.actorUrl}${this.apiKey}`)
+      //   .then(response => response.json())
+      //   .then(data =>{
+        //     this.setState({ 
+          //       isLoaded: true,
+          //       actors: data.results
+          //     })
+          //     // console.log(data.results);
+          //     // console.log(data.results.name);
+          //   })
+          // }
+          // fetchActors(actors);
+          // console.log(actors);
+          
+          let question;
+          if (this.state.isLoaded) {
+            // ask question
+            question = <h2>Did {actors[index]['name']} played in Frozen ?</h2>
+          }
+          // test2 = <p>{ console.log(actors) }</p>
+          return(
+            <div>
+        { question }
       </div>
     );
   }
