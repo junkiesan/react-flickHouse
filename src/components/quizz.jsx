@@ -85,8 +85,8 @@ class Quizz extends Component {
             question = <h2>Did {actors[index]['name']} played in { movies[index]['title'] } ?</h2>
             actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
             movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
-            greenButton = <button src="assets/img/green_thumb.svg" onClick={this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"></button>
-            redButton = <button src="assets/img/red_thumb.svg" onClick={this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"></button>
+            greenButton = <img src="assets/img/green_thumb.svg" onClick={this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+            redButton = <img src="assets/img/red_thumb.svg" onClick={this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
           }
           return(
             <div>

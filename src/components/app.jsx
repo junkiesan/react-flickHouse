@@ -32,14 +32,17 @@ class App extends Component {
     if (this.state.launchQuizz) {
       test = <p>echo</p>
     }
-    let quizz = <Quizz />
+    let quizz;
+    if (this.state.launchQuizz) {
+      quizz = <Quizz />
+    }
     return(
       <div>
         <div className="welcome">
           { welcome }
           { startButton }
+          { quizz }
         </div>
-        { quizz }
         { test }
       </div>
     )
