@@ -26,6 +26,7 @@ class Quizz extends Component {
 
   // fetch api
   // get popular actors and their movies
+  //https://reactjs.org/docs/react-component.html#componentdidmount
   componentDidMount() {
     fetch(`${this.actorUrl}${this.apiKey}`)
     .then(response => response.json())
@@ -34,7 +35,7 @@ class Quizz extends Component {
         // get array of actors
         actors: data.results,
         // flat every famous movies from popular actors
-        movies: data.results.map(result => result.known_for).flat(),
+        movies: data.results.map(actor => actor.known_for).flat(),
         isLoaded: true
       });
     },
@@ -59,7 +60,7 @@ class Quizz extends Component {
       // console.log(data.cast[0]['id']);
       // console.log(actorId);
       // if the actor's id from question is found in the movies'credit json
-      if (data.cast.find(credit => credit.id === actorId)) {
+      if (data.cast.find(actor => actor.id === actorId)) {
         this.setState({ 
           // actor'id is in movie's credit json
           answer: true,
