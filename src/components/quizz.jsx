@@ -111,20 +111,27 @@ class Quizz extends Component {
   // handle next question
   refreshQuestion = () => {
     const questions = this.state.questions;
+    const resetButton = this.state.resetButton;
     // const highscore = this.state.score;
     // after 5 questions stop game
-    if (questions < 6) {
+    if (questions < 5) {
       let incrementedQuestion = questions + 1;
       this.setState({
         index: Math.floor(Math.random() * Math.floor(20)),
         questions: incrementedQuestion
       }) 
+    } else {
+      this.setState({ resetButton: true })
     }
   }
   
   resetGame = () => {
-    this.setState({ resetButton: false })
     this.refreshQuestion();
+    this.setState({ 
+      resetButton: false,
+      score: 0,
+      questions: 0
+    })
   }
   // if 60seconds passed stop game
   // display highscore
@@ -145,8 +152,7 @@ class Quizz extends Component {
           if (this.state.isLoaded) {
             // displayHighscore = <p>Highscore: { highscore }</p>
             // duration of quizz
-              if (questions < 6) {
-                
+              if (questions < 6 && resetButton === false) {
                 scoreCount = <p>Score: {score}</p>
                 questionCount = <p>{questions}/5</p>
                 question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
@@ -154,7 +160,7 @@ class Quizz extends Component {
                 movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
                 greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
                 redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
-              } else {
+              }  else if (resetButton === true) {
                 gameOver = <GameOver score={ this.state.score } resetGame={this.resetGame} />
               }
             
