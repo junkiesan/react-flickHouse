@@ -6,7 +6,7 @@ class GameOver extends Component {
       <div>
         <h1>Game over!</h1>
         <p>Your score is { this.props.score } 👏</p>
-        <button className="game_over__btn" onClick={this.props.resetGame}>Reset</button>
+        <button className="game_over__btn" onClick={this.props.startQuizz}>Reset</button>
       </div>
     );
   }
