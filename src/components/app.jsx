@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Welcome from './welcome'
+import Quizz from './quizz'
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,6 @@ class App extends Component {
   }
   render() {
 
-
     let welcome;
     if (this.state.welcomeComponentDisplayed) {
       welcome = <Welcome />
@@ -32,11 +32,16 @@ class App extends Component {
     if (this.state.launchQuizz) {
       test = <p>echo</p>
     }
+    let quizz;
+    if (this.state.launchQuizz) {
+      quizz = <Quizz />
+    }
     return(
       <div>
         <div className="welcome">
           { welcome }
           { startButton }
+          { quizz }
         </div>
         { test }
       </div>
