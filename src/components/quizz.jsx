@@ -12,7 +12,9 @@ class Quizz extends Component {
       actors: [],
       userAnswer: null,
       answer: null,
-      questions: 1
+      questions: 1,
+      score: 0,
+      // highscore: []
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
     // this.apiKey = 'cc9affe1944340df2004885c27eab5e9',
@@ -21,7 +23,7 @@ class Quizz extends Component {
     }
 
   // fetch api
-  // get random actor
+  // get popular actors and their movies
   componentDidMount() {
     fetch(`${this.actorUrl}${this.apiKey}`)
     .then(response => response.json())
@@ -46,8 +48,9 @@ class Quizz extends Component {
     )
   }
 
-  // compare answer
+  // compare answer and give points if answer's right
   checkAnswer = async (actorId, movieId) => {
+    const score = this.state.score;
     await fetch(`${this.movieUrl}${movieId}/credits?api_key=${this.apiKey}`)
     .then(response => response.json())
     .then((data) => {
@@ -73,13 +76,23 @@ class Quizz extends Component {
     // Note: it's important to handle errors here
     // instead of a catch() block so that we don't swallow
     // exceptions from actual bugs in components.
-      (error) => {
+    (error) => {
         this.setState({
           isLoaded: true,
           error
         });
       }
-    )
+      );
+    if (this.state.answer === this.state.userAnswer){
+      // for each good answer add 10points
+      let incrementedScore = score + 10;
+      this.setState({ score: incrementedScore })
+      // let newScore = score;
+      // console.log(newScore);
+      // highscore.push(newScore);
+      // highscore.sort();
+      // highscore[0]
+    };
   }
   
   // catch event on button which takes for arguments a boolean(user answer) the displayed actor's id and movie's id 
@@ -91,28 +104,28 @@ class Quizz extends Component {
     // send ids to checkAnswer
     this.checkAnswer(actorId, movieId);
   }
+
   // give a new index to refresh data
+  // handle next question
   refreshQuestion = () => {
     const questions = this.state.questions;
-    console.log(questions);
-    if (questions < 5) {
+    // const highscore = this.state.score;
+    // after 5 questions stop game
+    if (questions < 6) {
       let incrementedQuestion = questions + 1;
       this.setState({
         index: Math.floor(Math.random() * Math.floor(20)),
         questions: incrementedQuestion
-      })
+      }) 
     }
   }
 
-  // for each good answer add 10points
-  // handle next question
-  // after 5 questions stop game
   // if 60seconds passed stop game
-  // display score and highscore
+  // display highscore
 
   render() {
     
-    const { actors, movies, index, questions} = this.state;
+    const { actors, movies, index, questions, score, highscore} = this.state;
   
           let question;
           let actorImage;
@@ -120,29 +133,31 @@ class Quizz extends Component {
           let greenButton;
           let redButton;
           let questionCount;          
+          let scoreCount;
+          let displayHighscore;       
           
           if (this.state.isLoaded) {
-              // if (this.state.answer !== null && this.state.answer === this.state.userAnswer) {
-              //   score = <p>Score: { score + 10}</p>
-                
-                
-              // }else if (this.state.userAnswer !== null && this.state.answer !== this.state.userAnswer){
-              //   score = <p>Score: { score}</p>
-              //   // score = <p>bad answer</p>
-    
-              // }
-            questionCount = <p>{questions}/5</p>
-            question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
-            actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
-            movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
-            greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
-            redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
-            // test = <p>{console.log(actors[index]['id'])}</p>
-            // test2 = <p>{console.log(movies[index]['id'])}</p>
+
+            // displayHighscore = <p>Highscore: { highscore }</p>
+            scoreCount = <p>Score: {score}</p>
+            // duration of quizz
+            if (questions < 6) {
+
+              questionCount = <p>{questions}/5</p>
+              question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
+              actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
+              movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
+              greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+              redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+            }
           }
           return(
             <div className="quizz">
               { questionCount }
+              <div className="quizz__scores">
+                { scoreCount }
+                {/* { displayHighscore } */}
+              </div>
               { question }
               <div className="quizz__img">
                 { actorImage }
