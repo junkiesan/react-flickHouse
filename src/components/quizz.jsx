@@ -153,15 +153,17 @@ class Quizz extends Component {
           }
           return(
             <div className="quizz">
-              { questionCount }
+              <div className="quizz__count">
+                { questionCount }
+              </div>
               <div className="quizz__scores">
                 { scoreCount }
                 {/* { displayHighscore } */}
               </div>
               { question }
               <div className="quizz__img">
-                { actorImage }
-                { movieImage }
+                  { actorImage }
+                  { movieImage }
               </div>
               <div className="quizz__btn">
                 { greenButton }

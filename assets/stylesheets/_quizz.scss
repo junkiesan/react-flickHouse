@@ -1,0 +1,31 @@
+.quizz {
+  text-align: center;
+  // display: flex;
+  &__count {
+    // position: absolute;
+    background-color: $honeyYellow;
+    border-radius: 25px;
+    color: $black;
+    font-size: $font-xlg;
+    font-weight: 600;
+    width: 110px;
+  }
+  
+  &__scores {
+    font-size: $font-lg;
+  }
+ 
+  &__img {
+    img {
+      margin: 10px 50px 10px 50px;
+      border: 4px solid #F7B239;
+      border-radius: 25px;
+    }
+  }
+  
+  &__btn {
+    img {
+      margin: 30px 100px 25px 100px;
+    }
+  }
+}
