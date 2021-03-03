@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import GameOver from './gameover';
 import 'regenerator-runtime/runtime';
 
 class Quizz extends Component {
@@ -14,6 +15,7 @@ class Quizz extends Component {
       answer: null,
       questions: 1,
       score: 0,
+      resetButton: false
       // highscore: []
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
@@ -119,13 +121,17 @@ class Quizz extends Component {
       }) 
     }
   }
-
+  
+  resetGame = () => {
+    this.setState({ resetButton: false })
+    this.refreshQuestion();
+  }
   // if 60seconds passed stop game
   // display highscore
 
   render() {
     
-    const { actors, movies, index, questions, score, highscore} = this.state;
+    const { actors, movies, index, questions, score, highscore, resetButton} = this.state;
   
           let question;
           let actorImage;
@@ -135,24 +141,27 @@ class Quizz extends Component {
           let questionCount;          
           let scoreCount;
           let displayHighscore;       
-          
+          let gameOver;
           if (this.state.isLoaded) {
-
             // displayHighscore = <p>Highscore: { highscore }</p>
-            scoreCount = <p>Score: {score}</p>
             // duration of quizz
-            if (questions < 6) {
-
-              questionCount = <p>{questions}/5</p>
-              question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
-              actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
-              movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
-              greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
-              redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
-            }
+              if (questions < 6) {
+                
+                scoreCount = <p>Score: {score}</p>
+                questionCount = <p>{questions}/5</p>
+                question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
+                actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
+                movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
+                greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+                redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+              } else {
+                gameOver = <GameOver score={ this.state.score } resetGame={this.resetGame} />
+              }
+            
           }
           return(
             <div className="quizz">
+              { gameOver }
               <div className="quizz__count">
                 { questionCount }
               </div>

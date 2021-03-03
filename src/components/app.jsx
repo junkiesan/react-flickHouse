@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Welcome from './welcome'
-import Quizz from './quizz'
+import Welcome from './welcome';
+import Quizz from './quizz';
+import GameOver from './gameover';
 
 class App extends Component {
   constructor(props) {
@@ -8,16 +9,19 @@ class App extends Component {
     this.state = {
       welcomeComponentDisplayed: true,
       startButton: true,
-      launchQuizz: false
+      launchQuizz: false,
+      resetQuizz: false
     };
   }
-  quizzStartHandler = () => {
+  
+  startQuizz = () => {
     this.setState({
       welcomeComponentDisplayed: false,
       startButton: false,
       launchQuizz: true
     })
   }
+  
   render() {
 
     let welcome;
@@ -26,7 +30,7 @@ class App extends Component {
     }
     let startButton;
     if (this.state.startButton) {
-      startButton = <button className="welcome__btn" onClick={this.quizzStartHandler}>Start</button>
+      startButton = <button className="welcome__btn" onClick={this.startQuizz}>Start</button>
     }
     let test;
     if (this.state.launchQuizz) {
