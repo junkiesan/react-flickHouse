@@ -5,7 +5,9 @@ class GameOver extends Component {
     return (
       <div>
         <h1>Game over!</h1>
+        {/* get score from Quizz parent component */}
         <p>Your score is { this.props.score } 👏</p>
+        {/* get resetGame function from Quizz parent component */}
         <button className="game_over__btn" onClick={this.props.resetGame}>Reset</button>
       </div>
     );

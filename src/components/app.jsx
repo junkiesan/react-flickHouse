@@ -22,17 +22,19 @@ class App extends Component {
   }
   
   render() {
-
+    // renders welcome card
     let welcome;
     if (this.state.welcomeComponentDisplayed) {
       welcome = <Welcome />
     }
 
+    // renders button to start game
     let startButton;
     if (this.state.startButton) {
       startButton = <button className="welcome__btn" onClick={this.startQuizz}>Start</button>
     }
 
+    // renders quizz component
     let quizz;
     if (this.state.launchQuizz) {
       quizz = <Quizz />
