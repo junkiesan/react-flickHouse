@@ -11,7 +11,8 @@ class Quizz extends Component {
       movies: [],
       actors: [],
       userAnswer: null,
-      answer: null
+      answer: null,
+      questions: 1
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
     // this.apiKey = 'cc9affe1944340df2004885c27eab5e9',
@@ -92,9 +93,15 @@ class Quizz extends Component {
   }
   // give a new index to refresh data
   refreshQuestion = () => {
-    this.setState({
-      index: Math.floor(Math.random() * Math.floor(20))
-    })
+    const questions = this.state.questions;
+    console.log(questions);
+    if (questions < 5) {
+      let incrementedQuestion = questions + 1;
+      this.setState({
+        index: Math.floor(Math.random() * Math.floor(20)),
+        questions: incrementedQuestion
+      })
+    }
   }
 
   // for each good answer add 10points
@@ -105,16 +112,14 @@ class Quizz extends Component {
 
   render() {
     
-    const { actors, movies, index} = this.state;
+    const { actors, movies, index, questions} = this.state;
   
           let question;
           let actorImage;
           let movieImage;
           let greenButton;
           let redButton;
-          let test2;
-          let test;
-          
+          let questionCount;          
           
           if (this.state.isLoaded) {
               // if (this.state.answer !== null && this.state.answer === this.state.userAnswer) {
@@ -126,6 +131,7 @@ class Quizz extends Component {
               //   // score = <p>bad answer</p>
     
               // }
+            questionCount = <p>{questions}/5</p>
             question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
             actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
             movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
@@ -136,6 +142,7 @@ class Quizz extends Component {
           }
           return(
             <div className="quizz">
+              { questionCount }
               { question }
               <div className="quizz__img">
                 { actorImage }
