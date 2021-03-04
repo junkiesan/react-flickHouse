@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'regenerator-runtime/runtime';
 
-import GameOver from './gameover';
+import GameOver from './game_over';
 
 class Quizz extends Component {
   constructor(props) {
