@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import GameOver from './gameover';
 import 'regenerator-runtime/runtime';
+
+import GameOver from './gameover';
 
 class Quizz extends Component {
   constructor(props) {
@@ -15,19 +16,21 @@ class Quizz extends Component {
       answer: null,
       questions: 1,
       score: 0,
-      resetButton: false
+      resetButton: false,
+      time: 60000
       // highscore: []
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
     // this.apiKey = 'cc9affe1944340df2004885c27eab5e9',
     this.actorUrl = 'https://api.themoviedb.org/3/person/popular?api_key=',
     this.movieUrl = 'https://api.themoviedb.org/3/movie/'
-    }
+  }
 
   // fetch api
   // get popular actors and their movies
   //https://reactjs.org/docs/react-component.html#componentdidmount
   componentDidMount() {
+    const time = this.state.time;
     fetch(`${this.actorUrl}${this.apiKey}`)
     .then(response => response.json())
     .then((data) => {
@@ -49,6 +52,10 @@ class Quizz extends Component {
       });
     }
     )
+    setTimeout(() => {
+      time - 1;
+      this.setState({ resetButton: true});
+    }, time);
   }
 
   // compare answer and give points if answer's right
@@ -112,7 +119,6 @@ class Quizz extends Component {
   // handle next question
   refreshQuestion = () => {
     const questions = this.state.questions;
-    const resetButton = this.state.resetButton;
     // const highscore = this.state.score;
     // after 5 questions stop game
     if (questions < 5) {
@@ -135,21 +141,32 @@ class Quizz extends Component {
     })
   }
   // if 60seconds passed stop game
-  // display highscore
+  // handleCountdown = () => {
+  //   const time = this.state.time;
+  //   let timeleft = time;
+  //   let downloadTimer = setInterval(function(){
+  //   timeleft--;
+  //   document.getElementById("countdowntimer").textContent = timeleft;
+  //   if(timeleft <= 0)
+  //       clearInterval(downloadTimer);
+  //   },60000);
 
+  // }
+  // display highscore
   render() {
     
-    const { actors, movies, index, questions, score, highscore, resetButton} = this.state;
-  
-          let question;
-          let actorImage;
-          let movieImage;
-          let greenButton;
-          let redButton;
-          let questionCount;          
-          let scoreCount;
-          let displayHighscore;       
-          let gameOver;
+    const { actors, movies, index, questions, score, highscore, resetButton, time} = this.state;
+    
+    let question;
+    let actorImage;
+    let movieImage;
+    let greenButton;
+    let redButton;
+    let questionCount;          
+    let scoreCount;
+    let displayHighscore;       
+    let gameOver;
+    let countdown;
           if (this.state.isLoaded) {
             // displayHighscore = <p>Highscore: { highscore }</p>
             // duration of quizz
@@ -161,6 +178,7 @@ class Quizz extends Component {
                 movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
                 greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
                 redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+                countdown = <p>{time / 1000}</p>
               }  else if (resetButton === true) {
                 gameOver = <GameOver score={ this.state.score } resetGame={this.resetGame} />
               }
@@ -181,6 +199,7 @@ class Quizz extends Component {
                   { actorImage }
                   { movieImage }
               </div>
+              <p className="quizz__countdown">{ countdown }</p>
               <div className="quizz__btn">
                 { greenButton }
                 { redButton }
