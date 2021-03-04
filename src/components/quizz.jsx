@@ -17,8 +17,9 @@ class Quizz extends Component {
       questions: 1,
       score: 0,
       resetButton: false,
-      time: 60000
-      // highscore: []
+      time: 60000,
+      highscore: [],
+      localStorageHighScore: localStorage.getItem("highscore")
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
     this.actorUrl = 'https://api.themoviedb.org/3/person/popular?api_key=',
@@ -56,6 +57,9 @@ class Quizz extends Component {
       time - 1;
       this.setState({ resetButton: true});
     }, time);
+    // Accessing highscore data from localStorage
+    let dataScore = this.state.highscore;
+    dataScore.push(this.state.localStorageHighScore)
   }
 
   // compare answer and give points if answer's right
@@ -119,7 +123,8 @@ class Quizz extends Component {
   // handle next question
   refreshQuestion = () => {
     const questions = this.state.questions;
-    // const highscore = this.state.score;
+    const highscore = this.state.highscore;
+    const score = this.state.score;
     // after 5 questions stop game
     if (questions < 5) {
       let incrementedQuestion = questions + 1;
@@ -128,7 +133,27 @@ class Quizz extends Component {
         questions: incrementedQuestion
       }) 
     } else {
-      this.setState({ resetButton: true })
+      this.setState({ resetButton: true})
+      if(this.state.score > 0){
+        let newHighscore = highscore;
+        let newScore = score;
+        newHighscore.push(newScore);
+        newHighscore.sort(function(score1, score2) {
+          return score2 - score1;
+        });
+        // defining highscore inside localStorage
+        let sessionHighscore = localStorage.getItem("highscore");
+        // pushing current score
+        newHighscore.push(sessionHighscore);
+        // secure data
+        // if(sessionHighscore !== null){
+        //     if (score > sessionHighscore) {
+        //         localStorage.setItem("highscore", score);     
+        //       }
+        //     } else{
+        //     localStorage.setItem("highscore", score);
+        // }
+      }
     }
   }
   
@@ -137,7 +162,7 @@ class Quizz extends Component {
     this.setState({ 
       resetButton: false,
       score: 0,
-      questions: 0
+      questions: 1
     })
   }
 
@@ -173,8 +198,9 @@ class Quizz extends Component {
         greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
         redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
         // COUNTDOWN
-        countdown = <p>{time / 1000}</p>
-        
+        countdown = <span>{time / 1000}</span>
+        // HIGHSCORE
+        displayHighscore = <span>Highscore: { highscore[0] }</span>
         // BEFORE CLICKING ON RETRY
       } else if (resetButton === true) {
           // GAME OVER PANEL
@@ -190,7 +216,7 @@ class Quizz extends Component {
               </div>
               <div className="quizz__scores">
                 { scoreCount }
-                {/* { displayHighscore } */}
+                { displayHighscore }
               </div>
               { question }
               <div className="quizz__img">
