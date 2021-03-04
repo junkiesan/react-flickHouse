@@ -21,7 +21,6 @@ class Quizz extends Component {
       // highscore: []
     };
     this.apiKey = process.env.REACT_APP_TMDB_API,
-    // this.apiKey = 'cc9affe1944340df2004885c27eab5e9',
     this.actorUrl = 'https://api.themoviedb.org/3/person/popular?api_key=',
     this.movieUrl = 'https://api.themoviedb.org/3/movie/'
   }
@@ -52,6 +51,7 @@ class Quizz extends Component {
       });
     }
     )
+    // after one minute the player loose
     setTimeout(() => {
       time - 1;
       this.setState({ resetButton: true});
@@ -140,18 +140,7 @@ class Quizz extends Component {
       questions: 0
     })
   }
-  // if 60seconds passed stop game
-  // handleCountdown = () => {
-  //   const time = this.state.time;
-  //   let timeleft = time;
-  //   let downloadTimer = setInterval(function(){
-  //   timeleft--;
-  //   document.getElementById("countdowntimer").textContent = timeleft;
-  //   if(timeleft <= 0)
-  //       clearInterval(downloadTimer);
-  //   },60000);
 
-  // }
   // display highscore
   render() {
     
@@ -167,21 +156,30 @@ class Quizz extends Component {
     let displayHighscore;       
     let gameOver;
     let countdown;
-          if (this.state.isLoaded) {
-            // displayHighscore = <p>Highscore: { highscore }</p>
-            // duration of quizz
-              if (questions < 6 && resetButton === false) {
-                scoreCount = <p>Score: {score}</p>
-                questionCount = <p>{questions}/5</p>
-                question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
-                actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
-                movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
-                greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
-                redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
-                countdown = <p>{time / 1000}</p>
-              }  else if (resetButton === true) {
-                gameOver = <GameOver score={ this.state.score } resetGame={this.resetGame} />
-              }
+    if (this.state.isLoaded) {
+      // displayHighscore = <p>Highscore: { highscore }</p>
+      // duration of quizz
+      if (questions < 6 && resetButton === false) {
+        // USER SCORE
+        scoreCount = <p>Score: {score}</p>
+        // CURRENT QUESTION NUMBER
+        questionCount = <p>{questions}/5</p>
+        // QUESTION FETCH FROM DB
+        question = <h2>Did {actors[index]['name']} play in { movies[index]['title'] } ?</h2>
+        // ACTOR AND MOVIE IMAGES
+        actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
+        movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
+        // YES && NO BUTTONS
+        greenButton = <img src="assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+        redButton = <img src="assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
+        // COUNTDOWN
+        countdown = <p>{time / 1000}</p>
+        
+        // BEFORE CLICKING ON RETRY
+      } else if (resetButton === true) {
+          // GAME OVER PANEL
+          gameOver = <GameOver score={ this.state.score } resetGame={this.resetGame} />
+        }
             
           }
           return(
