@@ -5,9 +5,9 @@ class Welcome extends Component {
     return (
       <div>
         <h1>Welcome to the quizz !</h1>
-        <p>You'll be asked a series of "Yes or No" questions. Answer as many as you can in the allowed time ! </p>
-        {/* <button className="welcome__btn" >Start</button> */}
-        <p>Good luck !</p>
+        <p>You'll be asked 5 "Yes or No" questions.</p>
+        <p>Answer as many as you can in the allowed time, you have 60 seconds !</p>
+        <p>Good luck ! And beware of the clock, it's broken !</p>
       </div>
     );
   }
