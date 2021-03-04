@@ -195,7 +195,7 @@ class Quizz extends Component {
         actorImage = <img src={`https://image.tmdb.org/t/p/w200` + actors[index]['profile_path']} alt={actors[index]['name']}/>
         movieImage = <img src={`https://image.tmdb.org/t/p/w200` + movies[index]['poster_path']} alt={movies[index]['title']}/>
         // YES && NO BUTTONS
-        greenButton = <img src="https://raw.githubusercontent.com/junkiesan/react-flickHouse/878455340c8e884c7d1d0f09d4ab7aee37c8ecf3/assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
+        greenButton = <img src="https://raw.githubusercontent.com/junkiesan/react-flickHouse/95717f7803722d348aec4620325c17d9e0d0fe6f/assets/img/green_thumb.svg" onClick={()=>this.handleAnswer(true, actors[index]['id'], movies[index]['id'])} alt="green thumb yes"/>
         redButton = <img src="https://raw.githubusercontent.com/junkiesan/react-flickHouse/030378f014bfba62cd0b8f97ff41239ce9f46ad6/assets/img/red_thumb.svg" onClick={()=>this.handleAnswer(false, actors[index]['id'], movies[index]['id'])} alt="red thumb no"/>
         // COUNTDOWN
         countdown = <span>{time / 1000}</span>
