@@ -17,5 +17,10 @@
     height: 60px;
     font-size: $font-xlg;
     margin: 1.875rem;
+  }&__btn:hover {
+      border: 1px solid $black;
+      background-color: $honeyYellow;
+      color: $black;
+      font-weight: bold;
   }
 }
