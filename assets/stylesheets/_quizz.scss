@@ -1,8 +1,6 @@
 .quizz {
   text-align: center;
-  // display: flex;
   &__count {
-    // position: absolute;
     background-color: $honeyYellow;
     border-radius: 25px;
     color: $black;
@@ -27,5 +25,9 @@
     img {
       margin: 30px 100px 25px 100px;
     }
+  }
+
+  &__countdown {
+    font-size: $font-xlg;
   }
 }

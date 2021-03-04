@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Welcome from './welcome'
-import Quizz from './quizz'
+import Welcome from './welcome';
+import Quizz from './quizz';
 
 class App extends Component {
   constructor(props) {
@@ -11,31 +11,35 @@ class App extends Component {
       launchQuizz: false
     };
   }
-  quizzStartHandler = () => {
+  
+  startQuizz = () => {
+    console.log('Hello');
     this.setState({
       welcomeComponentDisplayed: false,
       startButton: false,
       launchQuizz: true
     })
   }
+  
   render() {
-
+    // renders welcome card
     let welcome;
     if (this.state.welcomeComponentDisplayed) {
       welcome = <Welcome />
     }
+
+    // renders button to start game
     let startButton;
     if (this.state.startButton) {
-      startButton = <button className="welcome__btn" onClick={this.quizzStartHandler}>Start</button>
+      startButton = <button className="welcome__btn" onClick={this.startQuizz}>Start</button>
     }
-    let test;
-    if (this.state.launchQuizz) {
-      test = <p>echo</p>
-    }
+
+    // renders quizz component
     let quizz;
     if (this.state.launchQuizz) {
       quizz = <Quizz />
     }
+    
     return(
       <div>
         <div className="welcome">
@@ -43,7 +47,6 @@ class App extends Component {
           { startButton }
           { quizz }
         </div>
-        { test }
       </div>
     )
   }
